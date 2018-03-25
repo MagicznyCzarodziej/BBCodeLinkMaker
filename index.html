@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      html {
+        font-family: sans-serif;
+        font-size: 25px;
+      }
+      #container {
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 50px;
+        background-color: #eeeeee;
+        border-radius: 3px;
+        border-top: 7px solid #009f00;
+        width: 700px;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      .row {
+        display: flex;
+      }
+      .row:not(:last-child){
+        margin-bottom: 10px;
+      }
+      label {
+        margin-right: 5px;
+        text-align: left;
+      }
+      #preview a{
+        color: #009f00;
+        font-size: 20px;
+        font-weight: bold;
+        text-decoration: none;
+      }
+      input {
+        font-size: 15px;
+        flex-grow: 1;
+        margin: 0 10px;
+
+      }
+    </style>
+    <title>LinkoPomagacz</title>
+  </head>
+  <body>
+    <div id="container">
+      <div class="row"><label>Opis:</label><input type="text" id="description"></div>
+      <div class="row"><label>Link:</label><input type="text" id="link"></div>
+      <div class="row"><label>Podgląd:</label><span id="preview">(Wklej opis i link)</span></div>
+      <div class="row"><label>Kod do skopiowania:</label><input type="text" id="output" value="[url=][/url]"><button id="copyCode">KOPIUJ</button></div>
+    </div>
+    <script type="text/javascript">
+
+      const linkInput = document.getElementById('link');
+      const descriptionInput = document.getElementById('description');
+      const preview = document.getElementById('preview');
+      const output = document.getElementById('output');
+      const copyCode = document.getElementById('copyCode');
+
+      copyCode.addEventListener('click', function () {
+        output.select();
+        document.execCommand("Copy");
+      });
+
+      linkInput.addEventListener('input', updateOutput);
+      descriptionInput.addEventListener('input', updateOutput);
+
+      function updateOutput() {
+        preview.innerHTML = `<a href="${linkInput.value}">${descriptionInput.value}</a>`;
+        if(descriptionInput.value === '') preview.innerHTML = '(Wklej opis i link)';
+        output.value = `[url=${linkInput.value}]${descriptionInput.value}[/url]`;
+      }
+    </script>
+  </body>
+</html>
